@@ -1,5 +1,4 @@
 const inquirer = require('inquirer');
-//? insert db here???...
 const db = require('./server');
 
 const startProgram = function() {
@@ -8,7 +7,7 @@ const startProgram = function() {
     {
       type: 'list',
       name: 'action',
-      message: 'Choose an action:',
+      message: 'What would you like to do?',
       choices: [
         'View all departments',
         'View all roles',
@@ -16,7 +15,8 @@ const startProgram = function() {
         'Add a department',
         'Add a role',
         'Add an employee',
-        'Update an employee'
+        'Update an employee',
+        'Quit'
       ]
     }
 ])
@@ -24,25 +24,18 @@ const startProgram = function() {
 .then((choice) => {
   if(choice.action === 'View all departments'){
     readDepartment();
-    startProgram();
   } else if (choice.action === 'View all roles'){
     readRole();
-    startProgram();
   } else if (choice.action === 'View all employees'){
     readEmployee();
-    startProgram();
   } else if (choice.action === 'Add a department') {
     createDepartment();
-    startProgram();
   } else if (choice.action === 'Add a role'){
     createRole();
-    startProgram();
   } else if (choice.action === 'Add an employee'){
     createEmployee();
-    startProgram();
   } else if (choice.action === 'Update an employee'){
     updateEmployee();
-    startProgram();
   } else {
     console.log('Bye!')
     return
@@ -50,28 +43,116 @@ const startProgram = function() {
 });
 };
 
+//--- Read Queries
 const readDepartment = () => {
   db.query('SELECT id, name FROM department', function (err, results) {
   console.log(results);
+  startProgram();
 });
 };
+
+const readRole = () => {
+  db.query('SELECT id, title, salary, department_id FROM role', function (err, results) {
+    console.log(results);
+    startProgram();
+});
+}
+
+const readEmployee = () => {
+  db.query('SELECT id, first_name, last_name, role_id, manager_id FROM employee', function (err, results) {
+    console.log(results);
+    startProgram();
+  });
+}
+
+//--- Create Queries
+
+// Create a department
+const createDepartment = () => {
+  inquirer
+  .prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'What is the name of the department?',
+    }
+])
+.then((input) => {
+  let new_department_name = input.name;
+  db.query(`INSERT INTO department (name) VALUES (${new_department_name})`, function (err, results) {
+    console.log(`${new_department_name} has been added the database`)
+  })
+})
+};
+
+// Create a role
+const createRole = () => {
+  inquirer
+  .prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'What is the name of the role?',
+    },
+    {
+      type: 'input',
+      name: 'salary',
+      message: 'What is the salary of the role?',
+    },
+    {
+      type: 'input',
+      name: 'department',
+      message: 'Which department does the role belong to?',
+    }
+])
+.then((input) => {
+  let role = input.name;
+  let salary = input.salary;
+  let department = input.department;
+  db.query(`INSERT INTO role (title, salary, department_id) VALUES (${role}, ${salary}, ${department})`, function (err, results) {
+    console.log(`${new_role} has been added to the database.`)
+  })
+})
+}
+
+// Create an employee
+const createEmployee = () => {
+  inquirer
+  .prompt([
+    {
+      type: 'input',
+      name: 'first',
+      message: 'What is their first name?',
+    },
+    {
+      type: 'input',
+      name: 'last',
+      message: 'What is their last name?',
+    },
+    {
+      type: 'input',
+      name: 'role',
+      message: 'What is their role?',
+    },
+    {
+      type: 'input',
+      name: 'manager',
+      message: 'Who is their manager?',
+    }
+])
+.then((input) => {
+  let firstName = input.first;
+  let lastName = input.last;
+  let role = input.role;
+  let manager = input.manager;
+  db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (${firstName}, ${lastName}, ${role}, ${manager})`, function (err, results) {
+    console.log(`${firstName} ${lastName} has been added to the database.`)
+  })
+})
+}
+
+//TODO: --- Update Employee
 
 startProgram();
 
 module.exports = startProgram;
-
-//! Read Queries
-// Read department table in the terminal
-// db.query('SELECT id, name FROM department', function (err, results) {
-//   console.log(results);
-// });
-
-// Read role table
-// db.query('SELECT id, title, salary, department_id FROM role', function (err, results) {
-//   console.log(results);
-// });
-
-// Read employee table
-// db.query('SELECT id, first_name, last_name, role_id, manager_id FROM employee', function (err, results) {
-//   console.log(results);
-// });
