@@ -4,9 +4,6 @@ CREATE DATABASE company_db;
 -- Use this database --
 USE company_db;
 
--- See which db in use --
-SELECT DATABASE();
-
 -- Create department table --
 CREATE TABLE department (
   id INT PRIMARY KEY,

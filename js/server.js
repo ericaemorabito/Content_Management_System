@@ -1,6 +1,7 @@
 const express = require('express');
-// Import and require mysql2
 const mysql = require('mysql2');
+//? IMPORT START PROGRAM
+//const startProgram = require('./index');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -17,15 +18,11 @@ const db = mysql.createConnection(
     user: 'root',
     // MySQL password
     password: '',
-    database: 'db' //! How is this linked to the db?
+    // Database in use
+    database: 'company_db'
   },
-  console.log(`Connected to the dbdb database.`)
+  console.log(`Connected to the company_db database.`)
 );
-
-// Query the database
-db.query('SELECT ... ', function (err, results) {
-  console.log(results);
-});
 
 // Default response for any other request (Not Found)
 app.use((req, res) => {
