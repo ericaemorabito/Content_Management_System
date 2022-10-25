@@ -46,21 +46,21 @@ const startProgram = function() {
 //--- Read Queries
 const readDepartment = () => {
   db.query('SELECT id, name FROM department', function (err, results) {
-  console.log(results);
+  console.table(results);
   startProgram();
 });
 };
 
 const readRole = () => {
   db.query('SELECT id, title, salary, department_id FROM role', function (err, results) {
-    console.log(results);
+    console.table(results);
     startProgram();
 });
 }
 
 const readEmployee = () => {
   db.query('SELECT id, first_name, last_name, role_id, manager_id FROM employee', function (err, results) {
-    console.log(results);
+    console.table(results);
     startProgram();
   });
 }
@@ -81,6 +81,7 @@ const createDepartment = () => {
   let new_department_name = input.name;
   db.query(`INSERT INTO department (name) VALUES (${new_department_name})`, function (err, results) {
     console.log(`${new_department_name} has been added the database`)
+    startProgram();
   })
 })
 };
@@ -110,7 +111,8 @@ const createRole = () => {
   let salary = input.salary;
   let department = input.department;
   db.query(`INSERT INTO role (title, salary, department_id) VALUES (${role}, ${salary}, ${department})`, function (err, results) {
-    console.log(`${new_role} has been added to the database.`)
+    console.log(`${role} has been added to the database.`)
+    startProgram();
   })
 })
 }
@@ -147,11 +149,30 @@ const createEmployee = () => {
   let manager = input.manager;
   db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (${firstName}, ${lastName}, ${role}, ${manager})`, function (err, results) {
     console.log(`${firstName} ${lastName} has been added to the database.`)
+    startProgram();
   })
 })
 }
 
 //TODO: --- Update Employee
+// const updateEmployee = () => {
+//   //read from employee
+//     inquirer
+//     .prompt[
+//       {
+//         type: 'list',
+//         name: 'name',
+//         message: 'Select employee to update.',
+//         choices: [
+//           results.name
+//         ]
+//       }
+//     ].then((input) => {
+//       let name = input.name;
+//       db.query(`INSERT INTO role (title, salary, department_id) VALUES (${role}, ${salary}, ${department})`, function (err, results) {
+//       })
+//     })
+// };
 
 startProgram();
 
