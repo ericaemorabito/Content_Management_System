@@ -156,7 +156,6 @@ const createEmployee = () => {
 
 //TODO: --- Update Employee
 // const updateEmployee = () => {
-//   //read from employee
 //     inquirer
 //     .prompt[
 //       {

@@ -6,11 +6,11 @@ VALUES ("Engineering"),
       ("Sales");
 
 -- Fill role table --
-INSERT INTO role (title, salary)
-VALUES ("Engineer", "100000"),
-      ("Accountant", "90000"),
-      ("Lawyer", "125000"),
-      ("Salesperson", "80000");
+INSERT INTO role (title, salary, department_id)
+VALUES ("Engineer", "100000", 1),
+      ("Accountant", "90000", 2),
+      ("Lawyer", "125000", 3),
+      ("Salesperson", "80000", 4);
 
 -- Fill employee table --
 INSERT INTO employee (first_name, last_name)
